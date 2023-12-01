@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Day1 implements Day {
-    private final Pattern PATTERN = Pattern.compile("[\\D]*(\\d)");
+    private final Pattern PATTERN = Pattern.compile("(\\d)");
     private final Map<String, Integer> LETTERS = new HashMap<>() {
         {
             put("one", 1);
@@ -60,11 +60,11 @@ public class Day1 implements Day {
     private String notSimpleFormat(String input) {
         String output = "";
 
-        for(int i = 0; i < input.length(); i++){
-            for(Map.Entry<String, Integer> entry : LETTERS.entrySet()){
-                if(input.startsWith(entry.getKey(), i) || input.startsWith(entry.getValue().toString(), i)){
-                   output = String.format("%s%d",output, entry.getValue());
-                   break;
+        for (int i = 0; i < input.length(); i++) {
+            for (Map.Entry<String, Integer> entry : LETTERS.entrySet()) {
+                if (input.startsWith(entry.getKey(), i) || input.startsWith(entry.getValue().toString(), i)) {
+                    output = String.format("%s%d", output, entry.getValue());
+                    break;
                 }
             }
         }

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Main {
-    private static Map<Integer, Day> DAYS;
+    private static final Map<Integer, Day> DAYS;
 
     static {
         DAYS = new HashMap<>();
@@ -18,10 +18,10 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        if(args.length == 0)
+        if (args.length == 0)
             throw new NoDaysSpecifiedException();
 
-        if(args.length == 1)
+        if (args.length == 1)
             throw new NoPartsSpecifiedException();
 
         int key = Integer.parseInt(args[0]);
