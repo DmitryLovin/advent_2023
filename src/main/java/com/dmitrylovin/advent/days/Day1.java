@@ -3,7 +3,7 @@ package com.dmitrylovin.advent.days;
 import com.dmitrylovin.advent.parsers.InputParser;
 
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +23,7 @@ public class Day1 implements Day {
         }
     };
 
-    List<Function<String, String>> formatters = new ArrayList<>();
+    List<ToIntFunction<String>> formatters = new ArrayList<>();
 
     private final String[] inputData;
 
@@ -37,38 +37,52 @@ public class Day1 implements Day {
         return String.format("Result %d: %d",
                 part,
                 Arrays.stream(inputData)
-                        .map(formatters.get(part - 1))
-                        .mapToInt(Integer::parseInt).sum());
+                        .mapToInt(formatters.get(part - 1))
+                        .sum());
     }
 
-    private String simpleFormat(String input) {
+    private int simpleFormat(String input) {
         Matcher matcher = PATTERN.matcher(input);
 
-        String firstMatch = null;
-        String lastMatch = null;
+        DigitsCombiner combiner = new DigitsCombiner();
 
         while (matcher.find()) {
-            String match = matcher.group(1);
-
-            firstMatch = Objects.requireNonNullElse(firstMatch, match);
-            lastMatch = match;
+            combiner.put(matcher.group());
         }
 
-        return String.format("%s%s", firstMatch, lastMatch);
+        return combiner.combine();
     }
 
-    private String notSimpleFormat(String input) {
-        String output = "";
+    private int notSimpleFormat(String input) {
+        DigitsCombiner combiner = new DigitsCombiner();
 
         for (int i = 0; i < input.length(); i++) {
             for (Map.Entry<String, Integer> entry : LETTERS.entrySet()) {
                 if (input.startsWith(entry.getKey(), i) || input.startsWith(entry.getValue().toString(), i)) {
-                    output = String.format("%s%d", output, entry.getValue());
+                    combiner.put(entry.getValue());
                     break;
                 }
             }
         }
 
-        return simpleFormat(output);
+        return combiner.combine();
+    }
+
+    static class DigitsCombiner {
+        Integer first = null;
+        Integer last = null;
+
+        void put(String value) {
+            put(Integer.parseInt(value));
+        }
+
+        void put(int value) {
+            this.first = Objects.requireNonNullElse(this.first, value);
+            last = value;
+        }
+
+        int combine() {
+            return Integer.parseInt(String.format("%s%s", this.first, this.last));
+        }
     }
 }
