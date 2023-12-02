@@ -2,6 +2,7 @@ package com.dmitrylovin.advent;
 
 import com.dmitrylovin.advent.days.Day;
 import com.dmitrylovin.advent.days.Day1;
+import com.dmitrylovin.advent.days.Day2;
 import com.dmitrylovin.advent.exceptions.NoDaysSpecifiedException;
 import com.dmitrylovin.advent.exceptions.NoPartsSpecifiedException;
 
@@ -15,6 +16,7 @@ public class Main {
         DAYS = new HashMap<>();
 
         DAYS.put(1, new Day1());
+        DAYS.put(2, new Day2());
     }
 
     public static void main(String[] args) {
