@@ -4,24 +4,23 @@ import com.dmitrylovin.advent.days.Day;
 import com.dmitrylovin.advent.days.Day1;
 import com.dmitrylovin.advent.days.Day2;
 import com.dmitrylovin.advent.days.Day3;
-import com.dmitrylovin.advent.exceptions.NoDaysSpecifiedException;
-import com.dmitrylovin.advent.exceptions.NoPartsSpecifiedException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class Main {
-    private static final Map<Integer, Day> DAYS;
+    private static final Map<Integer, Supplier<Day>> DAYS;
 
     static {
         DAYS = new HashMap<>();
 
-        DAYS.put(1, new Day1());
-        DAYS.put(2, new Day2());
-        DAYS.put(3, new Day3());
+        DAYS.put(1, Day1::new);
+        DAYS.put(2, Day2::new);
+        DAYS.put(3, Day3::new);
     }
 
     private static final BufferedReader READER = new BufferedReader(
@@ -31,7 +30,7 @@ public class Main {
         int day = pickDay();
         int part = pickPart();
 
-        System.out.println(DAYS.get(day).calculate(part));
+        System.out.println(DAYS.get(day).get().calculate(part));
     }
 
     private static int pickDay() throws IOException {

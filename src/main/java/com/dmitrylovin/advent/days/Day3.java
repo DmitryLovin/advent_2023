@@ -9,9 +9,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Day3 extends DayWithInput {
-    private static final Pattern NUMBERS = Pattern.compile("(\\d+)");
-    private static final Pattern SYMBOLS = Pattern.compile("(\\*)|(&)|(\\$)|(-)|(\\+)|(%)|(/)|(#)|(=)|(@)");
-    private static final Pattern GEAR = Pattern.compile("(\\*)");
+    private static final Pattern PATTERN = Pattern.compile("(\\d+)|(\\*)|(&)|(\\$)|(-)|(\\+)|(%)|(/)|(#)|(=)|(@)");
     Field field = new Field();
 
     List<ToIntFunction<Element>> formatters = new ArrayList<>();
@@ -38,21 +36,19 @@ public class Day3 extends DayWithInput {
 
     private void prepareField() {
         for (int i = 0; i < inputData.length; i++) {
+            Matcher matcher = PATTERN.matcher(inputData[i]);
 
-            Matcher numbers = NUMBERS.matcher(inputData[i]);
-            Matcher symbols = SYMBOLS.matcher(inputData[i]);
-            Matcher gears = GEAR.matcher(inputData[i]);
-
-            while (numbers.find()) {
-                field.putNumber(numbers.start(), i, Integer.parseInt(numbers.group()));
-            }
-
-            while (symbols.find()) {
-                field.putSymbol(symbols.start(), i);
-            }
-
-            while (gears.find()) {
-                field.putGear(gears.start(), i);
+            while (matcher.find()){
+                if(matcher.group(1) != null) {
+                    field.putNumber(matcher.start(), i, Integer.parseInt(matcher.group()));
+                }
+                else if(matcher.group(2) != null) {
+                    field.putGear(matcher.start(), i);
+                    field.putSymbol(matcher.start(), i);
+                }
+                else {
+                    field.putSymbol(matcher.start(), i);
+                }
             }
         }
     }
