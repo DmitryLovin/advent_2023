@@ -1,9 +1,11 @@
 package com.dmitrylovin.advent;
 
-import com.dmitrylovin.advent.days.Day;
+import com.dmitrylovin.advent.days.CalculableDay;
 import com.dmitrylovin.advent.days.Day1;
 import com.dmitrylovin.advent.days.Day2;
 import com.dmitrylovin.advent.days.Day3;
+import com.dmitrylovin.advent.exceptions.NoImplementedDayException;
+import com.dmitrylovin.advent.exceptions.InvalidPartException;
 import com.dmitrylovin.advent.utils.Benchmark;
 
 import java.io.BufferedReader;
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class Main {
-    private static final Map<Integer, Supplier<Day>> DAYS;
+    private static final Map<Integer, Supplier<CalculableDay>> DAYS;
 
     static {
         DAYS = new HashMap<>();
@@ -29,11 +31,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int day = pickValue("day");
-        int part = pickValue("part");
+        int partIndex = pickValue("part") - 1;
+
+        if (!DAYS.containsKey(day))
+            throw new NoImplementedDayException();
+
+        if (partIndex < 0 || partIndex > 1)
+            throw new InvalidPartException();
 
         Benchmark.measureMillis(() ->
                 System.out.println(
-                        DAYS.get(day).get().calculate(part)
+                        DAYS.get(day).get().calculate(partIndex)
                 ));
     }
 

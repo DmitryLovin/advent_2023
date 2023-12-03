@@ -1,14 +1,11 @@
 package com.dmitrylovin.advent.days;
 
 import java.util.*;
-import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-public class Day2 extends DayWithInput {
-    List<ToIntFunction<Game>> formatters = new ArrayList<>();
-
+public class Day2 extends Day<Day2.Game> {
     public Day2() {
         super(2);
         formatters.add(this::partOne);
@@ -19,7 +16,7 @@ public class Day2 extends DayWithInput {
     public String calculate(int part) {
         Stream<Game> games = Arrays.stream(inputData).map(Game::build);
 
-        return String.format("Result: %d", games.mapToInt(formatters.get(part - 1)).sum());
+        return String.format("Result: %d", games.mapToInt(formatters.get(part)).sum());
     }
 
     private int partOne(Game game) {

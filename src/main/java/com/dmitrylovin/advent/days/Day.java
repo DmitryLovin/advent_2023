@@ -1,5 +1,21 @@
 package com.dmitrylovin.advent.days;
 
-public interface Day {
-    String calculate(int part);
+import com.dmitrylovin.advent.utils.InputParser;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.ToIntFunction;
+
+public class Day<T> implements CalculableDay {
+    protected String[] inputData;
+    List<ToIntFunction<T>> formatters = new ArrayList<>();
+
+    public Day(int day) {
+        this.inputData = InputParser.parseInput(day);
+    }
+
+    @Override
+    public String calculate(int part) {
+        return null;
+    }
 }

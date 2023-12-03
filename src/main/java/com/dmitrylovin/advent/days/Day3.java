@@ -3,16 +3,14 @@ package com.dmitrylovin.advent.days;
 import java.util.*;
 
 import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Day3 extends DayWithInput {
+public class Day3 extends Day<Day3.Element> {
     private static final Pattern PATTERN = Pattern.compile("(\\d+)|(\\*)|(&)|(\\$)|(-)|(\\+)|(%)|(/)|(#)|(=)|(@)");
     Field field = new Field();
 
-    List<ToIntFunction<Element>> formatters = new ArrayList<>();
     List<Supplier<Set<? extends Element>>> suppliers = new ArrayList<>();
 
     public Day3() {
@@ -29,7 +27,7 @@ public class Day3 extends DayWithInput {
 
     @Override
     public String calculate(int part) {
-        int sum = suppliers.get(part - 1).get().stream().mapToInt(formatters.get(part - 1)).sum();
+        int sum = suppliers.get(part).get().stream().mapToInt(formatters.get(part)).sum();
 
         return String.format("Result: %d", sum);
     }
@@ -38,15 +36,13 @@ public class Day3 extends DayWithInput {
         for (int i = 0; i < inputData.length; i++) {
             Matcher matcher = PATTERN.matcher(inputData[i]);
 
-            while (matcher.find()){
-                if(matcher.group(1) != null) {
+            while (matcher.find()) {
+                if (matcher.group(1) != null) {
                     field.putNumber(matcher.start(), i, Integer.parseInt(matcher.group()));
-                }
-                else if(matcher.group(2) != null) {
+                } else if (matcher.group(2) != null) {
                     field.putGear(matcher.start(), i);
                     field.putSymbol(matcher.start(), i);
-                }
-                else {
+                } else {
                     field.putSymbol(matcher.start(), i);
                 }
             }

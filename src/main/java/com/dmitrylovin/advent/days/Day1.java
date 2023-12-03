@@ -1,11 +1,10 @@
 package com.dmitrylovin.advent.days;
 
 import java.util.*;
-import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Day1 extends DayWithInput {
+public class Day1 extends Day<String> {
     private final Pattern PATTERN = Pattern.compile("(\\d)");
     private final Map<String, Integer> LETTERS = new HashMap<>() {
         {
@@ -21,19 +20,18 @@ public class Day1 extends DayWithInput {
         }
     };
 
-    List<ToIntFunction<String>> formatters = new ArrayList<>();
-
     public Day1() {
         super(1);
         formatters.add(this::simpleFormat);
         formatters.add(this::notSimpleFormat);
     }
 
+    @Override
     public String calculate(int part) {
         return String.format("Result %d: %d",
                 part,
                 Arrays.stream(inputData)
-                        .mapToInt(formatters.get(part - 1))
+                        .mapToInt(formatters.get(part))
                         .sum());
     }
 
