@@ -4,6 +4,7 @@ import com.dmitrylovin.advent.days.Day;
 import com.dmitrylovin.advent.days.Day1;
 import com.dmitrylovin.advent.days.Day2;
 import com.dmitrylovin.advent.days.Day3;
+import com.dmitrylovin.advent.utils.Benchmark;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,19 +28,17 @@ public class Main {
             new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
-        int day = pickDay();
-        int part = pickPart();
+        int day = pickValue("day");
+        int part = pickValue("part");
 
-        System.out.println(DAYS.get(day).get().calculate(part));
+        Benchmark.measureMillis(() ->
+                System.out.println(
+                        DAYS.get(day).get().calculate(part)
+                ));
     }
 
-    private static int pickDay() throws IOException {
-        System.out.println("Pick a day: ");
-        return Integer.parseInt(READER.readLine());
-    }
-
-    private static int pickPart() throws IOException {
-        System.out.println("Pick a part: ");
+    private static int pickValue(String type) throws IOException {
+        System.out.printf("Pick a %s: %n", type);
         return Integer.parseInt(READER.readLine());
     }
 }

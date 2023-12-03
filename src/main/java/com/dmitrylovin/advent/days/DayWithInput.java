@@ -1,6 +1,6 @@
 package com.dmitrylovin.advent.days;
 
-import com.dmitrylovin.advent.parsers.InputParser;
+import com.dmitrylovin.advent.utils.InputParser;
 
 public class DayWithInput implements Day {
     protected String[] inputData;
