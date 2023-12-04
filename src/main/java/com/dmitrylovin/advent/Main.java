@@ -1,9 +1,6 @@
 package com.dmitrylovin.advent;
 
-import com.dmitrylovin.advent.days.CalculableDay;
-import com.dmitrylovin.advent.days.Day1;
-import com.dmitrylovin.advent.days.Day2;
-import com.dmitrylovin.advent.days.Day3;
+import com.dmitrylovin.advent.days.*;
 import com.dmitrylovin.advent.exceptions.NoImplementedDayException;
 import com.dmitrylovin.advent.exceptions.InvalidPartException;
 import com.dmitrylovin.advent.utils.Benchmark;
@@ -24,6 +21,7 @@ public class Main {
         DAYS.put(1, Day1::new);
         DAYS.put(2, Day2::new);
         DAYS.put(3, Day3::new);
+        DAYS.put(4, Day4::new);
     }
 
     private static final BufferedReader READER = new BufferedReader(
@@ -39,7 +37,7 @@ public class Main {
         if (partIndex < 0 || partIndex > 1)
             throw new InvalidPartException();
 
-        Benchmark.measureMillis(() ->
+        Benchmark.measureMillis("Completed", () ->
                 System.out.println(
                         DAYS.get(day).get().calculate(partIndex)
                 ));
