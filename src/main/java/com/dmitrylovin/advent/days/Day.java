@@ -8,10 +8,12 @@ import java.util.function.ToIntFunction;
 
 public class Day<T> implements CalculableDay {
     protected String[] inputData;
+    protected String plainInput;
     List<ToIntFunction<T>> formatters = new ArrayList<>();
 
     public Day(int day) {
         this.inputData = InputParser.parseInput(day);
+        this.plainInput = String.join(".", inputData);
     }
 
     @Override

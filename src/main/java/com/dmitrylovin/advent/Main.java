@@ -22,6 +22,7 @@ public class Main {
         DAYS.put(2, Day2::new);
         DAYS.put(3, Day3::new);
         DAYS.put(4, Day4::new);
+        DAYS.put(5, Day5::new);
     }
 
     private static final BufferedReader READER = new BufferedReader(
@@ -37,10 +38,8 @@ public class Main {
         if (partIndex < 0 || partIndex > 1)
             throw new InvalidPartException();
 
-        Benchmark.measureMillis("Completed", () ->
-                System.out.println(
-                        DAYS.get(day).get().calculate(partIndex)
-                ));
+        DAYS.get(day).get().calculate(partIndex);
+
     }
 
     private static int pickValue(String type) throws IOException {
