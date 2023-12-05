@@ -22,10 +22,37 @@ public class Day5 extends Day {
 
     @Override
     public String calculate(int part) {
-        long result = Benchmark.measure(this::partTwo, 10000);
+        long result1 = Benchmark.measure(this::partOne, 10000);
+        System.out.printf("p%d. %d%n", part, result1);
+        long result2 = Benchmark.measure(this::partTwo, 10000);
 
-        System.out.printf("p%d. %d%n", part + 1, result);
+        System.out.printf("p%d. %d%n", part + 1, result2);
         return "0";
+    }
+
+    private long partOne() {
+        String[] data = plainInput.split("\\.\\.");
+        List<Long> seeds = Arrays.stream(data[0].replace("seeds: ", "").split(" ")).collect(
+                ArrayList::new,
+                (l, v) -> l.add(Long.parseLong(v)),
+                ArrayList::addAll
+        );
+
+        Map<String, List<long[]>> maps = new HashMap<>();
+        fillMaps(maps, data);
+
+        for (String key : mapKeys) {
+            for(int i=0;i<seeds.size();i++){
+                long seed = seeds.get(i);
+                for(long[] entry : maps.get(key)){
+                    if(seed >= entry[1] && seed < (entry[1] + entry[2])){
+                        seeds.set(i, seed -entry[1] + entry[0]);
+                        break;
+                    }
+                }
+            }
+        }
+        return seeds.stream().min(Long::compareTo).get();
     }
 
     private long partTwo() {
