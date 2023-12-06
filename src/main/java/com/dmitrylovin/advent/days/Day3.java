@@ -26,10 +26,12 @@ public class Day3 extends Day<Day3.Element> {
     }
 
     @Override
-    public String calculate(int part) {
-        int sum = suppliers.get(part).get().stream().mapToInt(formatters.get(part)).sum();
+    public void calculate() {
+        for (int i = 0; i < 2; i++) {
+            int sum = suppliers.get(i).get().stream().mapToInt(formatters.get(i)).sum();
 
-        return String.format("Result: %d", sum);
+            System.out.println(String.format("Result: %d", sum));
+        }
     }
 
     private void prepareField() {

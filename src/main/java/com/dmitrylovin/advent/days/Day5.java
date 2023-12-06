@@ -21,13 +21,12 @@ public class Day5 extends Day {
     }
 
     @Override
-    public String calculate(int part) {
+    public void calculate() {
         long result1 = Benchmark.measure(this::partOne, 10000);
-        System.out.printf("p%d. %d%n", part, result1);
+        System.out.printf("p%d. %d%n", 1, result1);
         long result2 = Benchmark.measure(this::partTwo, 10000);
 
-        System.out.printf("p%d. %d%n", part + 1, result2);
-        return "0";
+        System.out.printf("p%d. %d%n", 2, result2);
     }
 
     private long partOne() {

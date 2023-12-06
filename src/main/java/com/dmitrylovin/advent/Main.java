@@ -2,8 +2,6 @@ package com.dmitrylovin.advent;
 
 import com.dmitrylovin.advent.days.*;
 import com.dmitrylovin.advent.exceptions.NoImplementedDayException;
-import com.dmitrylovin.advent.exceptions.InvalidPartException;
-import com.dmitrylovin.advent.utils.Benchmark;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,15 +29,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         int day = pickValue("day");
-        int partIndex = pickValue("part") - 1;
 
         if (!DAYS.containsKey(day))
             throw new NoImplementedDayException();
 
-        if (partIndex < 0 || partIndex > 1)
-            throw new InvalidPartException();
-
-        DAYS.get(day).get().calculate(partIndex);
+        DAYS.get(day).get().calculate();
 
     }
 

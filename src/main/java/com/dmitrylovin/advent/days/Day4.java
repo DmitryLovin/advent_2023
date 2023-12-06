@@ -15,12 +15,12 @@ public class Day4 extends Day<String> {
     }
 
     @Override
-    public String calculate(int part) {
+    public void calculate() {
         //int sum = Arrays.stream(inputData).mapToInt(formatters.get(part)).sum();
-        benchFirst();
-        int sum = partTwo("");
-        System.out.println();
-        return String.format("Result: %d", sum);
+        //benchFirst();
+        //int sum = partTwo("");
+        //System.out.println();
+        //return String.format("Result: %d", sum);
     }
 
     private void benchFirst(){

@@ -21,21 +21,24 @@ public class Day1 extends Day<String> {
     };
 
     public Day1() {
-        super(1);
-        formatters.add(this::simpleFormat);
+        super(1, 142, 281);
+        formatters.add(this::partOne);
         formatters.add(this::notSimpleFormat);
     }
 
     @Override
-    public String calculate(int part) {
-        return String.format("Result %d: %d",
-                part,
-                Arrays.stream(inputData)
-                        .mapToInt(formatters.get(part))
-                        .sum());
+    public void calculate() {
+        calculateWithBenchmark(1000);
     }
 
-    private int simpleFormat(String input) {
+    @Override
+    protected long getResult(int part, String[] input) {
+        return Arrays.stream(input)
+                .mapToInt(formatters.get(part))
+                .sum();
+    }
+
+    private int partOne(String input) {
         Matcher matcher = PATTERN.matcher(input);
 
         DigitsCombiner combiner = new DigitsCombiner();

@@ -3,20 +3,21 @@ package com.dmitrylovin.advent.days;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class Day2 extends Day<Day2.Game> {
     public Day2() {
-        super(2);
+        super(2, 8, 2286);
         formatters.add(this::partOne);
         formatters.add(this::partTwo);
     }
 
     @Override
-    public String calculate(int part) {
-        Stream<Game> games = Arrays.stream(inputData).map(Game::build);
+    public void calculate() {
+        calculateWithBenchmark(5000);
+    }
 
-        return String.format("Result: %d", games.mapToInt(formatters.get(part)).sum());
+    protected long getResult(int part, String... input) {
+        return Arrays.stream(input).map(Game::build).mapToInt(formatters.get(part)).sum();
     }
 
     private int partOne(Game game) {
