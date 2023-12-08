@@ -1,10 +1,11 @@
 package com.dmitrylovin.advent.days;
 
 import java.util.*;
+import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Day1 extends Day<String> {
+public class Day1 extends Day<ToIntFunction<String>> {
     private final Pattern PATTERN = Pattern.compile("(\\d)");
     private final Map<String, Integer> LETTERS = new HashMap<>() {
         {

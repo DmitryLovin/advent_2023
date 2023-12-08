@@ -5,7 +5,6 @@ import com.dmitrylovin.advent.utils.InputParser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToIntFunction;
 
 public class Day<T> implements CalculableDay {
     protected String[] inputData;
@@ -14,7 +13,7 @@ public class Day<T> implements CalculableDay {
     protected String plainInput;
     private final String[] testPlainInput = new String[2];
 
-    protected final List<ToIntFunction<T>> formatters = new ArrayList<>();
+    protected final List<T> formatters = new ArrayList<>();
 
     private final long[] testResults = new long[2];
 

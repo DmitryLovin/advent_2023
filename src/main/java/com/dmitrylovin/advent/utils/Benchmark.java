@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 public class Benchmark {
-    public interface Benchmarkable{
+    public interface Benchmarkable {
         void run();
     }
 
@@ -18,7 +18,7 @@ public class Benchmark {
         double[] times = new double[count];
         int counter = count;
 
-        while(counter > 0) {
+        while (counter > 0) {
             long start = System.nanoTime();
 
             result = supplier.get();
@@ -31,7 +31,14 @@ public class Benchmark {
 
         double avg = Arrays.stream(times).average().getAsDouble();
 
-        System.out.printf("%d attempts, fastest: %.5fms, avg: %.5fms%n", count, minTime, avg);
+        String suffix = "ms";
+        if (avg < 1 && minTime < 1) {
+            avg *= 1000;
+            minTime *= 1000;
+            suffix = "μs";
+        }
+
+        System.out.printf("%d attempts, fastest: %.3f%s, avg: %.3f%s%n", count, minTime, suffix, avg, suffix);
         return result;
     }
 
@@ -44,7 +51,7 @@ public class Benchmark {
         return result;
     }
 
-    public static void measureMillis(String message, Benchmarkable task){
+    public static void measureMillis(String message, Benchmarkable task) {
         long start = System.nanoTime();
         task.run();
         double result = (System.nanoTime() - start) / 1000000d;

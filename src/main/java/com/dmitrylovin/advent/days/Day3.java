@@ -3,11 +3,12 @@ package com.dmitrylovin.advent.days;
 import java.util.*;
 
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Day3 extends Day<Day3.Element> {
+public class Day3 extends Day<ToIntFunction<Day3.Element>> {
     private static final Pattern PATTERN = Pattern.compile("(\\d+)|(\\*)|(&)|(\\$)|(-)|(\\+)|(%)|(/)|(#)|(=)|(@)");
     Field field = new Field();
 

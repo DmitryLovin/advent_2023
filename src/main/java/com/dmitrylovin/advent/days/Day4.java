@@ -4,8 +4,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.ToIntFunction;
 
-public class Day4 extends Day<String> {
+public class Day4 extends Day<ToIntFunction<String>> {
     public Day4() {
         super(4);
 

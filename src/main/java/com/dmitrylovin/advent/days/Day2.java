@@ -1,10 +1,11 @@
 package com.dmitrylovin.advent.days;
 
 import java.util.*;
+import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Day2 extends Day<Day2.Game> {
+public class Day2 extends Day<ToIntFunction<Day2.Game>> {
     public Day2() {
         super(2, 8, 2286);
         formatters.add(this::partOne);
