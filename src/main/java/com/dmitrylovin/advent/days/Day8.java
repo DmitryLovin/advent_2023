@@ -38,7 +38,7 @@ public class Day8 extends Day<ToLongFunction<Day8.Calculator>> {
     private long partTwo(Calculator calculator) {
         int[] counters = Arrays.stream(calculator.startKeys())
                 .parallel()
-                .mapToInt(calculator::getCount)
+                .mapToInt(calculator::getCount).sorted()
                 .toArray();
 
         Set<Integer> commonDividers = getDividers(counters[0]);
@@ -48,21 +48,28 @@ public class Day8 extends Day<ToLongFunction<Day8.Calculator>> {
         }
         int maxDivider = commonDividers.stream().max(Integer::compareTo).orElse(1);
 
-        long result = counters[0];
-        for (int i = 1; i < counters.length; i++) {
-            result *= (Long.divideUnsigned(counters[i], maxDivider));
+        long result = Arrays.stream(counters).mapToLong((c) -> c / maxDivider).reduce(1, (x, y) -> x * y) * maxDivider;
+
+        while (true) {
+            long finalResult = result;
+            if (Arrays.stream(counters).noneMatch((x) -> (finalResult / 2) % x == 0))
+            {
+                result /= 2;
+            } else
+                break;
         }
+
         return result;
     }
 
     private Set<Integer> getDividers(int number) {
+        int init = number;
         Set<Integer> dividers = new HashSet<>();
-
-        for (int i = 2; i < number / 2; i++) {
-            if ((number % i) == 0) {
-                number /= i;
-                dividers.add(number);
-                i = 2;
+        for (int i = 2; i <= number; i++) {
+            if ((init % i) == 0) {
+                dividers.add(i);
+                dividers.add(init / i);
+                number = init / i;
             }
         }
         return dividers;
