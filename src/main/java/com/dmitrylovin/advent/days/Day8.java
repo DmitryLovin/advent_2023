@@ -6,17 +6,17 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Day8 extends Day<ToLongFunction<Day8.Calculator>> {
-    static Pattern sequencePattern = Pattern.compile("[LR]");
-    static Map<String, Integer> sequenceMap;
+    private final static Pattern SEQUENCE_PATTERN = Pattern.compile("[LR]");
+    private final static Map<String, Integer> SEQUENCE_MAP = new HashMap<>() {{
+        put("L", 0);
+        put("R", 1);
+    }};
 
-    static {
-        sequenceMap = new HashMap<>();
-        sequenceMap.put("L", 0);
-        sequenceMap.put("R", 1);
-    }
+    private final static String[] finishKeys = {"ZZZ", "Z"};
 
     public Day8() {
         super(8, 6, 6);
+
         formatters.add(this::partOne);
         formatters.add(this::partTwo);
     }
@@ -28,15 +28,18 @@ public class Day8 extends Day<ToLongFunction<Day8.Calculator>> {
 
     @Override
     protected long getResult(int part, String... inputData) {
-        return formatters.get(part).applyAsLong(Calculator.build(inputData));
+        return formatters.get(part).applyAsLong(Calculator.build(finishKeys[part], inputData));
     }
 
     private int partOne(Calculator calculator) {
-        return calculator.getCount();
+        return calculator.getCount("AAA");
     }
 
     private long partTwo(Calculator calculator) {
-        int[] counters = Arrays.stream(calculator.startKeys()).parallel().mapToInt(calculator::getCountWithSuffix).toArray();
+        int[] counters = Arrays.stream(calculator.startKeys())
+                .parallel()
+                .mapToInt(calculator::getCount)
+                .toArray();
 
         Set<Integer> commonDividers = getDividers(counters[0]);
 
@@ -65,10 +68,14 @@ public class Day8 extends Day<ToLongFunction<Day8.Calculator>> {
         return dividers;
     }
 
-    record Calculator(int[] sequence, Map<String, String[]> map) {
-        static Calculator build(String... input) {
+    record Calculator(String finishKey, int[] sequence, Map<String, String[]> map) {
+        static Calculator build(String finishKey, String... input) {
             return new Calculator(
-                    sequencePattern.matcher(input[0]).results().mapToInt((r) -> sequenceMap.get(r.group())).toArray(),
+                    finishKey,
+                    SEQUENCE_PATTERN.matcher(input[0])
+                            .results()
+                            .mapToInt((r) -> SEQUENCE_MAP.get(r.group()))
+                            .toArray(),
                     Arrays.stream(Arrays.copyOfRange(input, 2, input.length))
                             .parallel().map((line) -> line.split(" = "))
                             .collect(
@@ -81,37 +88,21 @@ public class Day8 extends Day<ToLongFunction<Day8.Calculator>> {
             return map.keySet().stream().parallel().filter((s) -> s.endsWith("A")).toArray(String[]::new);
         }
 
-        int getCount() {
-            String key = "AAA";
+        int getCount(String key) {
             int counter = 0;
-            while (true) {
-                for (int action : this.sequence) {
-                    counter += 1;
-                    String newKey = this.map.get(key)[action];
 
-                    if (newKey.equals("ZZZ")) {
-                        return counter;
-                    }
+            for (int action : this.sequence) {
+                counter += 1;
+                String newKey = this.map.get(key)[action];
 
-                    key = newKey;
+                if (newKey.endsWith(finishKey)) {
+                    return counter;
                 }
+
+                key = newKey;
             }
-        }
 
-        int getCountWithSuffix(String key) {
-            int counter = 0;
-            while (true) {
-                for (int action : this.sequence) {
-                    counter += 1;
-                    String newKey = this.map.get(key)[action];
-
-                    if (newKey.endsWith("Z")) {
-                        return counter;
-                    }
-
-                    key = newKey;
-                }
-            }
+            return counter + getCount(key);
         }
     }
 }
