@@ -23,6 +23,7 @@ public class Main {
         DAYS.put(5, Day5::new);
         DAYS.put(6, Day6::new);
         DAYS.put(7, Day7::new);
+        DAYS.put(8, Day8::new);
         DAYS.put(9, Day9::new);
     }
 
@@ -36,7 +37,6 @@ public class Main {
             throw new NoImplementedDayException();
 
         DAYS.get(day).get().calculate();
-
     }
 
     private static int pickValue(String type) throws IOException {
