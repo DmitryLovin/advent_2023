@@ -2,18 +2,30 @@
 
 ## Ryzen 2600x results:
 
+- Day 1
+  1) 5000 attempts, fastest: 78,8μs, avg: 169,324μs
+  2) 5000 attempts, fastest: 477,8μs, avg: 560,814μs
+- Day 2
+  1) 10000 attempts, fastest: 84,4μs, avg: 182,636μs
+  2) 10000 attempts, fastest: 84,9μs, avg: 112,154μs
+- Day 3
+  1) 5000 attempts, fastest: 2,075ms, avg: 2,292ms
+  2) 5000 attempts, fastest: 1,697ms, avg: 1,884ms
+- Day 4
+  1) 5000 attempts, fastest: 126,2μs, avg: 239,767μs
+  2) 5000 attempts, fastest: 720,8μs, avg: 756,991μs
 - Day 5
-  1) attempts, fastest: 112,200μs, avg: 140,623μs
-  2) attempts, fastest: 220,600μs, avg: 251,157μs
+  1) 10000 attempts, fastest: 116,5μs, avg: 145,448μs
+  2) 10000 attempts, fastest: 146,5μs, avg: 178,093μs
 - Day 6
-  1) 10000 attempts, fastest: 2,900μs, avg: 9,147μs
-  2) 10000 attempts, fastest: 2,500μs, avg: 6,575μs
+  1) 10000 attempts, fastest: 2,9μs, avg: 8,791μs
+  2) 10000 attempts, fastest: 2,2μs, avg: 5,136μs
 - Day 7
-  1) 5000 attempts, fastest: 530,200μs, avg: 730,980μs
+  1) 5000 attempts, fastest: 521,5μs, avg: 715,467μs
   2) 5000 attempts, fastest: 2,859ms, avg: 3,086ms
 - Day 8
-  1) 5000 attempts, fastest: 609,900μs, avg: 731,383μs
-  2) 5000 attempts, fastest: 728,200μs, avg: 857,223μs
+  1) 5000 attempts, fastest: 609,9μs, avg: 731,383μs
+  2) 5000 attempts, fastest: 728,2μs, avg: 857,223μs
 - Day 9
-  1) 5000 attempts, fastest: 74,200μs, avg: 184,314μs
-  2) 5000 attempts, fastest: 74,700μs, avg: 132,179μs
+  1) 10000 attempts, fastest: 72,7μs, avg: 129,947μs
+  2) 10000 attempts, fastest: 66,2μs, avg: 101,937μs
