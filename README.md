@@ -3,8 +3,8 @@
 ## Ryzen 2600x results:
 
 - Day 1
-  1) 5000 attempts, fastest: 78,8μs, avg: 169,324μs
-  2) 5000 attempts, fastest: 477,8μs, avg: 560,814μs
+  1) 10000 attempts, fastest: 78,3μs, avg: 145,878μs
+  2) 10000 attempts, fastest: 160,5μs, avg: 201,837μs
 - Day 2
   1) 10000 attempts, fastest: 84,4μs, avg: 182,636μs
   2) 10000 attempts, fastest: 84,9μs, avg: 112,154μs

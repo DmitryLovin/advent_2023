@@ -8,19 +8,17 @@ import java.util.regex.Pattern;
 
 public class Day1 extends Day<ToIntFunction<String>> {
     private final Pattern PATTERN = Pattern.compile("(\\d)");
-    private final Map<String, Integer> LETTERS = new HashMap<>() {
-        {
-            put("one", 1);
-            put("two", 2);
-            put("three", 3);
-            put("four", 4);
-            put("five", 5);
-            put("six", 6);
-            put("seven", 7);
-            put("eight", 8);
-            put("nine", 9);
-        }
-    };
+    private final Map<String, Integer> LETTERS = new HashMap<>() {{
+        put("one", 1);
+        put("two", 2);
+        put("three", 3);
+        put("four", 4);
+        put("five", 5);
+        put("six", 6);
+        put("seven", 7);
+        put("eight", 8);
+        put("nine", 9);
+    }};
 
     public Day1() {
         super(1, 142, 281);
@@ -30,7 +28,7 @@ public class Day1 extends Day<ToIntFunction<String>> {
 
     @Override
     public void calculate() {
-        calculateWithBenchmark(5000);
+        calculateWithBenchmark(10000);
     }
 
     @Override
