@@ -14,7 +14,7 @@ public class Day9 extends Day<ToIntFunction<String>> {
 
     @Override
     public void calculate() {
-        calculateWithBenchmark(5000);
+        calculateWithBenchmark(10000);
     }
 
     @Override

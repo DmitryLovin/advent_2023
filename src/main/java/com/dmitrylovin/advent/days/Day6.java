@@ -1,27 +1,28 @@
 package com.dmitrylovin.advent.days;
 
-import com.dmitrylovin.advent.utils.Benchmark;
-
 import java.util.Arrays;
+import java.util.function.Function;
 
-public class Day6 extends Day {
+public class Day6 extends Day<Function<String[], Long>> {
     public Day6() {
-        super(6);
+        super(6, 288, 71503);
+        formatters.add(this::partOne);
+        formatters.add(this::partTwo);
     }
 
     @Override
     public void calculate() {
-        long result1 = Benchmark.measure(this::partOne, 10000);
-        System.out.printf("p%d. %d%n", 1, result1);
-        long result2 = Benchmark.measure(this::partTwo, 10000);
-
-        System.out.printf("p%d. %d%n", 2, result2);
+        calculateWithBenchmark(10000);
     }
 
-    private long partOne() {
-        int[] times = Arrays.stream(parseLine(inputData[0])).mapToInt(Integer::parseInt).toArray();
-        int[] distances = Arrays.stream(parseLine(inputData[1])).mapToInt(Integer::parseInt).toArray();
+    @Override
+    protected long getResult(int part, String... inputData) {
+        return formatters.get(part).apply(inputData);
+    }
 
+    private long partOne(String... input) {
+        int[] times = Arrays.stream(parseLine(input[0])).mapToInt(Integer::parseInt).toArray();
+        int[] distances = Arrays.stream(parseLine(input[1])).mapToInt(Integer::parseInt).toArray();
 
         long result = 1;
 
@@ -32,9 +33,9 @@ public class Day6 extends Day {
         return result;
     }
 
-    private long partTwo() {
-        long time = Long.parseLong(String.join("", parseLine(inputData[0])));
-        long distance = Long.parseLong(String.join("", parseLine(inputData[1])));
+    private long partTwo(String... input) {
+        long time = Long.parseLong(String.join("", parseLine(input[0])));
+        long distance = Long.parseLong(String.join("", parseLine(input[1])));
 
         return calculate(time, distance);
     }

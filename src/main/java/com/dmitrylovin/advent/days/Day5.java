@@ -1,10 +1,9 @@
 package com.dmitrylovin.advent.days;
 
-import com.dmitrylovin.advent.utils.Benchmark;
-
 import java.util.*;
+import java.util.function.Function;
 
-public class Day5 extends Day {
+public class Day5 extends Day<Function<String[], Long>> {
     private final String[] mapKeys = {
             "seed-to-soil",
             "soil-to-fertilizer",
@@ -16,21 +15,23 @@ public class Day5 extends Day {
     };
 
     public Day5() {
-        super(5);
-
+        super(5, 35, 46);
+        formatters.add(this::partOne);
+        formatters.add(this::partTwo);
     }
 
     @Override
     public void calculate() {
-        long result1 = Benchmark.measure(this::partOne, 10000);
-        System.out.printf("p%d. %d%n", 1, result1);
-        long result2 = Benchmark.measure(this::partTwo, 10000);
-
-        System.out.printf("p%d. %d%n", 2, result2);
+        calculateWithBenchmark(10000);
     }
 
-    private long partOne() {
-        String[] data = plainInput.split("\\.\\.");
+    @Override
+    protected long getResult(int part, String... inputData) {
+        return formatters.get(part).apply(inputData);
+    }
+
+    private long partOne(String... input) {
+        String[] data = (String.join(".", input)).split("\\.\\.");
         List<Long> seeds = Arrays.stream(data[0].replace("seeds: ", "").split(" ")).collect(
                 ArrayList::new,
                 (l, v) -> l.add(Long.parseLong(v)),
@@ -41,21 +42,21 @@ public class Day5 extends Day {
         fillMaps(maps, data);
 
         for (String key : mapKeys) {
-            for(int i=0;i<seeds.size();i++){
+            for (int i = 0; i < seeds.size(); i++) {
                 long seed = seeds.get(i);
-                for(long[] entry : maps.get(key)){
-                    if(seed >= entry[1] && seed < (entry[1] + entry[2])){
-                        seeds.set(i, seed -entry[1] + entry[0]);
+                for (long[] entry : maps.get(key)) {
+                    if (seed >= entry[1] && seed < (entry[1] + entry[2])) {
+                        seeds.set(i, seed - entry[1] + entry[0]);
                         break;
                     }
                 }
             }
         }
-        return seeds.stream().min(Long::compareTo).get();
+        return seeds.stream().min(Long::compareTo).orElse(0L);
     }
 
-    private long partTwo() {
-        String[] data = plainInput.split("\\.\\.");
+    private long partTwo(String... input) {
+        String[] data = (String.join(".", input)).split("\\.\\.");
         List<Long> seeds = Arrays.stream(data[0].replace("seeds: ", "").split(" ")).collect(
                 ArrayList::new,
                 (l, v) -> l.add(Long.parseLong(v)),
@@ -116,7 +117,7 @@ public class Day5 extends Day {
         }
 
         long min_result = Long.MAX_VALUE;
-        for(int i=0;i<seeds.size();i+=2){
+        for (int i = 0; i < seeds.size(); i += 2) {
             min_result = Math.min(seeds.get(i), min_result);
         }
 

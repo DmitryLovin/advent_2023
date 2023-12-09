@@ -29,12 +29,12 @@ public class Day1 extends Day<ToIntFunction<String>> {
 
     @Override
     public void calculate() {
-        calculateWithBenchmark(1000);
+        calculateWithBenchmark(5000);
     }
 
     @Override
     protected long getResult(int part, String[] input) {
-        return Arrays.stream(input)
+        return Arrays.stream(input).parallel()
                 .mapToInt(formatters.get(part))
                 .sum();
     }

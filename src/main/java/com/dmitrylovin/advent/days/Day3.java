@@ -2,63 +2,50 @@ package com.dmitrylovin.advent.days;
 
 import java.util.*;
 
-import java.util.function.Supplier;
-import java.util.function.ToIntFunction;
+import java.util.function.Function;
+import java.util.function.ToIntBiFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Day3 extends Day<ToIntFunction<Day3.Element>> {
-    private static final Pattern PATTERN = Pattern.compile("(\\d+)|(\\*)|(&)|(\\$)|(-)|(\\+)|(%)|(/)|(#)|(=)|(@)");
-    Field field = new Field();
+public class Day3 extends Day<ToIntBiFunction<Day3.Field, Day3.Element>> {
+    private static final Pattern[] PATTERNS = new Pattern[]{
+            Pattern.compile("(\\d+)|([*&$\\-+%/#=@])"),
+            Pattern.compile("(\\d+)|(\\*)")
+    };
 
-    List<Supplier<Set<? extends Element>>> suppliers = new ArrayList<>();
+    List<Function<Field, Set<? extends Element>>> suppliers = new ArrayList<>();
 
     public Day3() {
-        super(3);
-
-        prepareField();
+        super(3, 4361, 467835);
 
         formatters.add(this::partOne);
         formatters.add(this::partTwo);
 
-        suppliers.add(() -> field.numbers);
-        suppliers.add(() -> field.gears);
+        suppliers.add(Field::numbers);
+        suppliers.add(Field::gears);
     }
 
     @Override
     public void calculate() {
-        for (int i = 0; i < 2; i++) {
-            int sum = suppliers.get(i).get().stream().mapToInt(formatters.get(i)).sum();
-
-            System.out.println(String.format("Result: %d", sum));
-        }
+        calculateWithBenchmark(5000);
     }
 
-    private void prepareField() {
-        for (int i = 0; i < inputData.length; i++) {
-            Matcher matcher = PATTERN.matcher(inputData[i]);
+    @Override
+    protected long getResult(int part, String... inputData) {
+        Field field = Field.build(part, inputData);
 
-            while (matcher.find()) {
-                if (matcher.group(1) != null) {
-                    field.putNumber(matcher.start(), i, Integer.parseInt(matcher.group()));
-                } else if (matcher.group(2) != null) {
-                    field.putGear(matcher.start(), i);
-                    field.putSymbol(matcher.start(), i);
-                } else {
-                    field.putSymbol(matcher.start(), i);
-                }
-            }
-        }
+        return suppliers.get(part).apply(field)
+                .stream().parallel().mapToInt((e) -> formatters.get(part).applyAsInt(field, e)).sum();
     }
 
-    private int partOne(Element element) {
+    private int partOne(Field field, Element element) {
 
         boolean valid = field.symbols.stream().anyMatch((symbol) -> ((Number) element).area.in(symbol.pos));
         return valid ? ((Number) element).value : 0;
     }
 
-    private int partTwo(Element gear) {
+    private int partTwo(Field field, Element gear) {
         Set<Number> withGear = field.numbers.stream().filter((n) ->
                 n.area.in(gear.pos)
         ).collect(Collectors.toSet());
@@ -89,6 +76,33 @@ public class Day3 extends Day<ToIntFunction<Day3.Element>> {
 
         void putNumber(int x, int y, int value) {
             numbers.add(new Number(x, y, value));
+        }
+
+        Set<Number> numbers() {
+            return this.numbers;
+        }
+
+        Set<Element> gears() {
+            return this.gears;
+        }
+
+        static Field build(int part, String... input) {
+            Field field = new Field();
+            for (int i = 0; i < input.length; i++) {
+                Matcher matcher = PATTERNS[part].matcher(input[i]);
+
+                while (matcher.find()) {
+                    if (matcher.group(1) != null) {
+                        field.putNumber(matcher.start(), i, Integer.parseInt(matcher.group()));
+                    } else if (matcher.group(2) != null) {
+                        field.putGear(matcher.start(), i);
+                        field.putSymbol(matcher.start(), i);
+                    } else {
+                        field.putSymbol(matcher.start(), i);
+                    }
+                }
+            }
+            return field;
         }
     }
 

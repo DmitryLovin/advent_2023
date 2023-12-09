@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Day2 extends Day<ToIntFunction<Day2.Game>> {
+    private static final Pattern PREFIX = Pattern.compile("Game (\\d+): ");
+
     public Day2() {
         super(2, 8, 2286);
         formatters.add(this::partOne);
@@ -14,11 +16,11 @@ public class Day2 extends Day<ToIntFunction<Day2.Game>> {
 
     @Override
     public void calculate() {
-        calculateWithBenchmark(5000);
+        calculateWithBenchmark(10000);
     }
 
     protected long getResult(int part, String... input) {
-        return Arrays.stream(input).map(Game::build).mapToInt(formatters.get(part)).sum();
+        return Arrays.stream(input).parallel().map(Game::build).mapToInt(formatters.get(part)).sum();
     }
 
     private int partOne(Game game) {
@@ -36,8 +38,6 @@ public class Day2 extends Day<ToIntFunction<Day2.Game>> {
     }
 
     record Game(int index, GameSet[] sets) {
-        private static final Pattern PREFIX = Pattern.compile("Game (\\d+): ");
-
         boolean isPossible() {
             return Arrays.stream(sets).allMatch(GameSet::isPossible);
         }

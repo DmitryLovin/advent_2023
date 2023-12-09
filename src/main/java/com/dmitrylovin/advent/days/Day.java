@@ -10,9 +10,6 @@ public class Day<T> implements CalculableDay {
     protected String[] inputData;
     private final String[][] testInputData = new String[2][];
 
-    protected String plainInput;
-    private final String[] testPlainInput = new String[2];
-
     protected final List<T> formatters = new ArrayList<>();
 
     private final long[] testResults = new long[2];
@@ -31,9 +28,7 @@ public class Day<T> implements CalculableDay {
         if (this.testInputData[1].length == 0) {
             this.testInputData[1] = this.testInputData[0];
         }
-        this.plainInput = String.join(".", inputData);
-        this.testPlainInput[0] = String.join(".", testInputData[0]);
-        this.testPlainInput[1] = String.join(".", testInputData[1]);
+
         this.testResults[0] = testResultOne;
         this.testResults[1] = testResultTwo;
     }
