@@ -23,7 +23,7 @@ public class Day10 extends Day {
 
     @Override
     public void calculate() {
-        calculateWithBenchmark(1000);
+        calculateWithBenchmark(5000);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class Day10 extends Day {
             }
             if (!found) break;
         }
+
         if (part == 0) {
             return connected.size() / 2;
         }
@@ -99,25 +100,21 @@ public class Day10 extends Day {
         g2d.setColor(Color.WHITE);
         g2d.fillPolygon(xPoints, yPoints, nPoints);
 
-        int count = 0;
-
-        for (int y = minY + 1; y < maxY; y++) {
-            for (int x = minX + 1; x < maxX; x++) {
-                if (connected.contains(new Point(x, y)))
-                    continue;
-                int rgb = image.getRGB(x, y);
-                if (rgb == -1)
-                    count++;
-            }
-        }
-
         /*try {
             ImageIO.write(image,"PNG",new File(String.format("./out_%s.png", System.nanoTime())));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }*/
 
-        return count;
+        int finalMinX = minX;
+        int finalMaxX = maxX;
+        return IntStream.range(minY + 1, maxY)
+                .parallel()
+                .map(
+                        (y) -> IntStream
+                                .range(finalMinX + 1, finalMaxX)
+                                .map((x) -> !connected.contains(new Point(x, y)) && image.getRGB(x, y) == -1 ? 1 : 0)
+                                .sum()).sum();
     }
 
     static class Field {
