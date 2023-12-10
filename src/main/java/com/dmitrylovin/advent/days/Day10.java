@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class Day10 extends Day{
-    static final Map<String, Point[]> DIR_MAP = new HashMap<>(){{
-        put("|", new Point[]{new Point(0,1),new Point(0,-1)});
-        put("-", new Point[]{new Point(1,0),new Point(-1,0)});
-        put("L", new Point[]{new Point(0,-1),new Point(1,0)});
-        put("J", new Point[]{new Point(-1,0),new Point(0,-1)});
-        put("7", new Point[]{new Point(-1,0),new Point(0,1)});
-        put("F", new Point[]{new Point(1,0),new Point(0,1)});
-        put(".", new Point[]{new Point(0,0),new Point(0,0)});
+    static final Map<Character, Point[]> DIR_MAP = new HashMap<>(){{
+        put('|', new Point[]{new Point(0,1),new Point(0,-1)});
+        put('-', new Point[]{new Point(1,0),new Point(-1,0)});
+        put('L', new Point[]{new Point(0,-1),new Point(1,0)});
+        put('J', new Point[]{new Point(-1,0),new Point(0,-1)});
+        put('7', new Point[]{new Point(-1,0),new Point(0,1)});
+        put('F', new Point[]{new Point(1,0),new Point(0,1)});
+        put('.', new Point[]{new Point(0,0),new Point(0,0)});
     }};
 
     public Day10() {
@@ -23,7 +23,7 @@ public class Day10 extends Day{
 
     @Override
     public void calculate(){
-        calculateWithBenchmark(1000);
+        calculateWithBenchmark(5000);
     }
 
     @Override
@@ -31,9 +31,8 @@ public class Day10 extends Day{
         Field field = new Field(inputData[0].length(), inputData.length);
 
         IntStream.range(0, inputData.length).boxed().parallel().forEach((y)->{
-            String[] pipes = inputData[y].split("");
-            for(int x = 0; x < pipes.length; x++){
-                field.addPipe(x, y, pipes[x]);
+            for(int x = 0; x < inputData[y].length(); x++){
+                field.addPipe(x, y, inputData[y].charAt(x));
             }
         });
 
@@ -54,7 +53,7 @@ public class Day10 extends Day{
                 found = true;
                 connected.put(point, i++);
                 pipe = field.pipes[point.y][point.x];
-                if(!Arrays.stream(DIR_MAP.get(pipe.key)).reduce(new Point(0,0), Point::add).isEmpty())
+                if(part == 1 && !(pipe.key == '|' || pipe.key == '-'))
                     polyPoints.add(point);
             }
             if(!found) break;
@@ -104,9 +103,9 @@ public class Day10 extends Day{
             this.pipes = new Pipe[height][width];
         }
 
-        void addPipe(int x, int y, String key){
+        void addPipe(int x, int y, char key){
             pipes[y][x] = new Pipe(x, y, key);
-            if(key.equals("S"))
+            if(key == 'S')
                 start = new Point(x, y);
         }
 
@@ -130,9 +129,9 @@ public class Day10 extends Day{
     static class Pipe {
         Point pos;
         Point[] connected = new Point[2];
-        String key;
+        char key;
 
-        Pipe(int x, int y, String dir){
+        Pipe(int x, int y, char dir){
             key = dir;
             pos = new Point(x, y);
             Point[] dirs;
@@ -161,10 +160,6 @@ public class Day10 extends Day{
 
         public Point add(Point point){
             return new Point(x + point.x, y + point.y);
-        }
-
-        public boolean isEmpty() {
-            return x == 0 && y == 0;
         }
     }
 }
