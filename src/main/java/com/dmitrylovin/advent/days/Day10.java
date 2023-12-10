@@ -3,6 +3,7 @@ package com.dmitrylovin.advent.days;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class Day10 extends Day{
@@ -22,7 +23,7 @@ public class Day10 extends Day{
 
     @Override
     public void calculate(){
-        calculateWithBenchmark(5000);
+        calculateWithBenchmark(1000);
     }
 
     @Override
@@ -37,10 +38,12 @@ public class Day10 extends Day{
         });
 
         Map<Point, Integer> connected = new HashMap<>();
+        List<Point> polyPoints = new ArrayList<>();
         connected.put(field.start, 0);
-
+        polyPoints.add(field.start);
         Pipe pipe = field.findConnectedToStart();
         connected.put(pipe.pos, 1);
+        polyPoints.add(pipe.pos);
 
         int i = 2;
         while(true){
@@ -51,6 +54,8 @@ public class Day10 extends Day{
                 found = true;
                 connected.put(point, i++);
                 pipe = field.pipes[point.y][point.x];
+                if(!Arrays.stream(DIR_MAP.get(pipe.key)).reduce(new Point(0,0), Point::add).isEmpty())
+                    polyPoints.add(point);
             }
             if(!found) break;
         }
@@ -64,15 +69,14 @@ public class Day10 extends Day{
                 BufferedImage.TYPE_INT_RGB
         );
 
-        int[] xPoints = new int[connected.size()];
-        int[] yPoints = new int[connected.size()];
-        int nPoints = connected.size();
+        int[] xPoints = new int[polyPoints.size()];
+        int[] yPoints = new int[polyPoints.size()];
+        int nPoints = polyPoints.size();
 
-        for(Map.Entry<Point, Integer> entry : connected.entrySet()){
-            xPoints[entry.getValue()] = entry.getKey().x;
-            yPoints[entry.getValue()] = entry.getKey().y;
+        for(int j = 0; j < polyPoints.size(); j++){
+            xPoints[j] = polyPoints.get(j).x;
+            yPoints[j] = polyPoints.get(j).y;
         }
-
 
         Graphics2D g2d = image.createGraphics();
         g2d.setColor(Color.GREEN);
@@ -157,6 +161,10 @@ public class Day10 extends Day{
 
         public Point add(Point point){
             return new Point(x + point.x, y + point.y);
+        }
+
+        public boolean isEmpty() {
+            return x == 0 && y == 0;
         }
     }
 }
