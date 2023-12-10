@@ -2,13 +2,16 @@ package com.dmitrylovin.advent.utils;
 
 import com.dmitrylovin.advent.Main;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class InputParser {
+public class FileUtils {
     static final String INPUT_PATH = "input_data/";
+    static final String TEXTURES_PATH = "./src/main/resources/textures/";
+
     static final ClassLoader loader = Main.class.getClassLoader();
 
     public static String[] parseInput(int day) {
@@ -33,5 +36,17 @@ public class InputParser {
         InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
         BufferedReader reader = new BufferedReader(streamReader);
         return reader.lines().toArray(String[]::new);
+    }
+
+    public static BufferedImage readImage(String key){
+        File file = new File(String.format("%s%s.png", TEXTURES_PATH, key));
+        if(!file.exists()) {
+            return null;
+        }
+        try {
+            return ImageIO.read(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

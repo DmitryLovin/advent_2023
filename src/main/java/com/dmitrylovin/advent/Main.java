@@ -3,7 +3,10 @@ package com.dmitrylovin.advent;
 import com.dmitrylovin.advent.days.*;
 import com.dmitrylovin.advent.exceptions.NoImplementedDayException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ public class Main {
         DAYS.put(7, Day7::new);
         DAYS.put(8, Day8::new);
         DAYS.put(9, Day9::new);
+        DAYS.put(10, Day10::new);
     }
 
     private static final BufferedReader READER = new BufferedReader(

@@ -1,7 +1,7 @@
 package com.dmitrylovin.advent.days;
 
 import com.dmitrylovin.advent.utils.Benchmark;
-import com.dmitrylovin.advent.utils.InputParser;
+import com.dmitrylovin.advent.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,12 @@ public class Day<T> implements CalculableDay {
     }
 
     public Day(int day, long testResultOne, long testResultTwo) {
-        this.inputData = InputParser.parseInput(day);
-        this.testInputData[0] = InputParser.parseTestInput(day);
+        this.inputData = FileUtils.parseInput(day);
+        this.testInputData[0] = FileUtils.parseTestInput(day);
         if (this.testInputData[0].length == 0) {
-            this.testInputData[0] = InputParser.parseTestInput(day, 1);
+            this.testInputData[0] = FileUtils.parseTestInput(day, 1);
         }
-        this.testInputData[1] = InputParser.parseTestInput(day, 2);
+        this.testInputData[1] = FileUtils.parseTestInput(day, 2);
         if (this.testInputData[1].length == 0) {
             this.testInputData[1] = this.testInputData[0];
         }
@@ -44,6 +44,9 @@ public class Day<T> implements CalculableDay {
                 System.out.printf("Test #%d has been failed!%n", i + 1);
                 continue;
             }
+
+            getResult(i, inputData);
+
             int finalI = i;
 
             long result = Benchmark.measure(() -> (getResult(finalI, inputData)), times);
