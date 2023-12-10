@@ -29,3 +29,6 @@
 - Day 9
   1) 10000 attempts, fastest: 72,7μs, avg: 129,947μs
   2) 10000 attempts, fastest: 66,2μs, avg: 101,937μs
+- Day 10
+  1) 5000 attempts, fastest: 1,144ms, avg: 1,406ms
+  2) 5000 attempts, fastest: 3,918ms, avg: 4,159ms

@@ -61,7 +61,7 @@ public class Day10 extends Day{
         BufferedImage image = new BufferedImage(
                 field.pipes[0].length,
                 field.pipes.length,
-                BufferedImage.TYPE_INT_ARGB
+                BufferedImage.TYPE_INT_RGB
         );
 
         int[] xPoints = new int[connected.size()];
