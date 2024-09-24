@@ -45,7 +45,7 @@ public class Day<T> implements CalculableDay {
                 continue;
             }
 
-            getResult(i, inputData);
+            //getResult(i, inputData);
 
             int finalI = i;
 
